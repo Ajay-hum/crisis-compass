@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
+import { timeAgo } from "../../utils/timeAgo";
 import { getSeverityStyles } from "../../utils/severityUtils";
+import RiskIndicator from "./RiskIndicator";
 
 export default function CrisisCard({ crisis }) {
   const severityClasses = getSeverityStyles(crisis.severity);
@@ -7,7 +9,7 @@ export default function CrisisCard({ crisis }) {
   return (
     <Link to={`/crises/${crisis.id}`}>
       <article
-        className={`rounded-xl border p-6 bg-white ${severityClasses.border}`}
+        className={`rounded-xl border p-6 bg-white transition hover:shadow-lg ${severityClasses.border}`}
       >
         <h3 className="text-xl font-semibold text-slate-900">
           {crisis.title}
@@ -18,17 +20,14 @@ export default function CrisisCard({ crisis }) {
         </p>
 
         <div className="mt-4 flex items-center justify-between">
-          <span
-            className={`text-sm font-medium ${severityClasses.text}`}
-          >
-            Severity: {crisis.severity}
-          </span>
+          <RiskIndicator severity={crisis.severity} />
 
-          <span className="text-xs text-slate-400">
-            {crisis.lastUpdated}
+          <span className="text-xs text-slate-500">
+            Updated {timeAgo(crisis.lastUpdated)}
           </span>
         </div>
       </article>
     </Link>
   );
 }
+

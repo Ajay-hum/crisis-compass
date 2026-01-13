@@ -7,7 +7,7 @@ export const crises = [
     affectedRegions: ["Lagos", "Bayelsa"],
     summary:
       "Heavy rainfall has caused widespread flooding affecting homes and infrastructure.",
-    lastUpdated: "2026-01-04",
+    lastUpdated: Date.now(),
 
     guidance: {
       global: {

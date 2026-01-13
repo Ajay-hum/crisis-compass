@@ -5,13 +5,16 @@ import SeverityBadge from "../components/crisis/SeverityBadge";
 import Timeline from "../components/crisis/Timeline";
 import { useState } from "react";
 import SourcesSection from "../components/crisis/SourcesSection";
+import { useLocation } from "../context/LocationContext";
+import RiskIndicator from "../components/crisis/RiskIndicator";
+
 
 
 export default function CrisisDetail() {
   const { id } = useParams();
   const crisis = crises.find((c) => c.id === id);
-
-  const [context, setContext] = useState("global")
+  
+  const { location, setLocation } = useLocation();
 
   if (!crisis) {
     return (
@@ -22,9 +25,7 @@ export default function CrisisDetail() {
   }
 
   const guidance =
-  context === "global"
-    ? crisis.guidance?.global
-    : crisis.guidance?.[context];
+  crisis.guidance?.[location] || crisis.guidance?.global;
 
 
   return (
@@ -36,6 +37,7 @@ export default function CrisisDetail() {
 
             <div className="mt-4 flex items-center gap-4">
                 <SeverityBadge severity={crisis.severity} />
+                <RiskIndicator severity={crisis.severity} />
                 <span className="text-sm text-slate-500">
                     Last updated: {crisis.lastUpdated}
                 </span>
@@ -43,9 +45,9 @@ export default function CrisisDetail() {
 
             <div className="mt-6 flex gap-3">
                 <button
-                    onClick={() => setContext("global")}
+                    onClick={() => setLocation("global")}
                     className={`px-4 py-2 rounded-lg border
-                    ${context === "global"
+                    ${location === "global"
                         ? "bg-blue-600 text-white"
                         : "bg-white text-slate-700"}
                     `}
@@ -54,9 +56,9 @@ export default function CrisisDetail() {
                 </button>
 
                 <button
-                    onClick={() => setContext("Nigeria")}
+                    onClick={() => setLocation("Nigeria")}
                     className={`px-4 py-2 rounded-lg border
-                    ${context === "Nigeria"
+                    ${location === "Nigeria"
                         ? "bg-blue-600 text-white"
                         : "bg-white text-slate-700"}
                     `}
@@ -64,6 +66,7 @@ export default function CrisisDetail() {
                     Nigeria
                 </button>
             </div>
+
 
 
 

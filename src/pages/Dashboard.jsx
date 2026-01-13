@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { crises } from "../data/crises";
 import CrisisCard from "../components/crisis/CrisisCard";
+import { useLiveCrises } from "../hooks/useLiveCrises";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [severityFilter, setSeverityFilter] = useState("All");
+  const crises = useLiveCrises();
 
   useEffect(() => {
     const timer = setTimeout(() => {

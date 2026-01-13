@@ -1,0 +1,9 @@
+export function timeAgo(timestamp) {
+  const minutes = Math.floor((Date.now() - timestamp) / 60000);
+
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return `${minutes} min ago`;
+
+  const hours = Math.floor(minutes / 60);
+  return `${hours}h ago`;
+}
