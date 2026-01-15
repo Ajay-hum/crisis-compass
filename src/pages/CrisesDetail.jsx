@@ -6,7 +6,11 @@ import Timeline from "../components/crisis/Timeline";
 import { useState } from "react";
 import SourcesSection from "../components/crisis/SourcesSection";
 import { useLocation } from "../context/LocationContext";
-import RiskIndicator from "../components/crisis/RiskIndicator";
+import TrendIndicator from "../components/crisis/TrendIndicator";
+import { deriveStatus } from "../utils/deriveStatus";
+import { usePlainMode } from "../context/PlainModeContext";
+import PlainModeToggle from "../components/PlainModeToggle";
+import { sectionIcons } from "../utils/sectionIcons";
 
 
 
@@ -16,6 +20,11 @@ export default function CrisisDetail() {
   
   const { location, setLocation } = useLocation();
 
+  const derivedStatus = deriveStatus(crisis);
+
+  const { plainMode } = usePlainMode();
+
+
   if (!crisis) {
     return (
       <p className="text-center mt-12 text-slate-600">
@@ -24,8 +33,18 @@ export default function CrisisDetail() {
     );
   }
 
+  const summaryText = plainMode && crisis.plainSummary
+    ? crisis.plainSummary
+    : crisis.summary;
+
   const guidance =
   crisis.guidance?.[location] || crisis.guidance?.global;
+
+  const whatToDoItems =
+  plainMode && guidance?.whatToDoNow?.plain
+    ? guidance.whatToDoNow.plain
+    : guidance?.whatToDoNow?.detailed || guidance?.whatToDoNow;
+
 
 
   return (
@@ -35,9 +54,13 @@ export default function CrisisDetail() {
             {crisis.title}
             </h1>
 
+            <div className="mt-2">
+                <PlainModeToggle />
+            </div>
+
             <div className="mt-4 flex items-center gap-4">
                 <SeverityBadge severity={crisis.severity} />
-                <RiskIndicator severity={crisis.severity} />
+                <TrendIndicator trend={crisis.trend} />
                 <span className="text-sm text-slate-500">
                     Last updated: {crisis.lastUpdated}
                 </span>
@@ -67,31 +90,32 @@ export default function CrisisDetail() {
                 </button>
             </div>
 
-
-
-
             <p className="mt-4 text-slate-700">
-            {crisis.summary}
+            {summaryText}
             </p>
 
             <InfoSection
             title="Who is affected"
             items={guidance?.affectedGroups}
+            icon={sectionIcons.affected}
             />
 
             <InfoSection
             title="What to do now"
-            items={guidance?.whatToDoNow}
+            items={whatToDoItems}
+            icon={sectionIcons.now}
             />
 
             <InfoSection
             title="Prepare next"
             items={guidance?.prepareNext}
+            icon={sectionIcons.prepare}
             />
 
             <InfoSection
             title="What to avoid"
             items={guidance?.avoid}
+            icon={sectionIcons.avoid}
             />
 
             <Timeline events={crisis.timeline} />

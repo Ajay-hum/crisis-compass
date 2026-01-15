@@ -1,21 +1,38 @@
+import { statusStyles } from "../../utils/statusStyles";
+
 export default function Timeline({ events }) {
   if (!events || events.length === 0) return null;
 
   return (
     <section className="mt-10">
       <h2 className="text-xl font-semibold text-slate-900">
-        Timeline
+        Situation Timeline
       </h2>
 
-      <ul className="mt-4 space-y-4 border-l-2 border-slate-200 pl-4">
+      <ol className="mt-6 border-l border-slate-300 pl-6 space-y-6">
         {events.map((event, index) => (
           <li key={index} className="relative">
-            <span className="absolute -left-2 top-1 w-3 h-3 bg-blue-500 rounded-full" />
-            <p className="text-sm text-slate-500">{event.date}</p>
-            <p className="text-slate-700">{event.event}</p>
+            {/* Dot */}
+            <span
+              className={`absolute -left-3 top-1 w-3 h-3 rounded-full bg-white border-2 ${statusStyles[event.status]}`}
+            />
+
+            <time className="text-xs text-slate-500">
+              {event.time}
+            </time>
+
+            <p className="mt-1 text-sm font-medium text-slate-800">
+              {event.title}
+            </p>
+
+            <span
+              className={`mt-1 inline-block text-xs font-semibold ${statusStyles[event.status]}`}
+            >
+              {event.status}
+            </span>
           </li>
         ))}
-      </ul>
+      </ol>
     </section>
   );
 }
