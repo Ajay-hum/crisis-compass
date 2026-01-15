@@ -1,5 +1,6 @@
 export const statusStyles = {
-  Escalating: "text-red-600",
-  Stable: "text-blue-600",
-  Improving: "text-green-600",
+  Low: "text-green-700 bg-green-100",
+  Medium: "text-yellow-800 bg-yellow-100",
+  High: "text-red-800 bg-red-100",
 };
+

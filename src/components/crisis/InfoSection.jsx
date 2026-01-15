@@ -4,7 +4,7 @@ export default function InfoSection ({ title, items, icon: Icon }) {
     return (
         <section className="mt-8">
             <div className="flex items-center gap-2">
-                {Icon && <Icon className="w-5 h-5 text-slate-700" />}
+                {Icon && <Icon className="w-5 h-5 text-slate-700" aria-hidden />}
                 <h2 className="text-lg font-semibold text-slate-900">
                 {title}
                 </h2>

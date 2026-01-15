@@ -1,24 +1,24 @@
 import {
   AlertTriangle,
-  Flame,
-  CloudRain,
-  ShieldAlert,
+  AlertCircle,
+  CheckCircle,
 } from "lucide-react";
 
 export const riskVisuals = {
   Low: {
-    label: "Low Risk",
-    color: "text-green-600 bg-green-50",
-    icon: ShieldAlert,
+  label: "Low Risk",
+  icon: CheckCircle,
+  color: "border-green-400",
   },
   Medium: {
     label: "Moderate Risk",
-    color: "text-yellow-700 bg-yellow-50",
-    icon: AlertTriangle,
+    icon: AlertCircle,
+    color: "border-yellow-400",
   },
   High: {
     label: "High Risk",
-    color: "text-red-600 bg-red-50",
-    icon: Flame,
+    icon: AlertTriangle,
+    color: "border-red-400",
   },
+
 };
